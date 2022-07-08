@@ -14,51 +14,21 @@ export default function Home({articles}) {
       </Head>
 
       <main>
-        {articles.map((article) => {
-          return (
-            <div>
-              <h3>{article.title}</h3>
-              <p>{article.author}</p>
-              <p>{article.description}</p>
-              <button>
-                <Link href={article.url}>
-                <a>Read More</a>
-                </Link>
-              </button>
-            </div>
-          )
-        })}
       </main>
     </div>
   )
 }
 
-export async function getServerSideProps({pageNumber}) {
-  // Call an external API endpoint to get posts.
-  // You can use any data fetching library
-  
-  var url = 'https://newsapi.org/v2/everything?' +
-          'q=(biden)and(china)and(taiwan)&' +
-          'sortBy=popularity&' +
-          'language=en&' +
-          'pageSize=5&' +
-          'page=1&' +
-          'apiKey=3daa9affabe0493aa7dd7048d570c177';
 
-  const res = await fetch(url);
-  const posts = await res.json();
-  const articles = posts.articles;
 
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-  return {
-    props: {
-      articles,
-    },
-  }
-}
+
+
+
+
+
+
 
 
 /*
-https://newsapi.org/docs/endpoints/everything
+
 */
