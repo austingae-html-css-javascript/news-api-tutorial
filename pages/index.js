@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import Link from 'next/link'
 
-export default function Home() {
+export default function Home({articles}) {
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,59 +13,52 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+      <main>
+        {articles.map((article) => {
+          return (
+            <div>
+              <h3>{article.title}</h3>
+              <p>{article.author}</p>
+              <p>{article.description}</p>
+              <button>
+                <Link href={article.url}>
+                <a>Read More</a>
+                </Link>
+              </button>
+            </div>
+          )
+        })}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
+
+export async function getServerSideProps({pageNumber}) {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  
+  var url = 'https://newsapi.org/v2/everything?' +
+          'q=(biden)and(china)and(taiwan)&' +
+          'sortBy=popularity&' +
+          'language=en&' +
+          'pageSize=5&' +
+          'page=1&' +
+          'apiKey=3daa9affabe0493aa7dd7048d570c177';
+
+  const res = await fetch(url);
+  const posts = await res.json();
+  const articles = posts.articles;
+
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      articles,
+    },
+  }
+}
+
+
+/*
+https://newsapi.org/docs/endpoints/everything
+*/
