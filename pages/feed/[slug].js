@@ -6,13 +6,11 @@ import Link from 'next/link'
 
 const Feed = ({ pageNumber, articles}) => {
 
-  console.log(pageNumber);
-  console.log(articles); 
   return (
     <div>
-      {articles.map((article) => {
+      {articles.map((article, index) => {
         return (
-          <div>
+          <div className={index}>
             <img src={article.urlToImage} style={{width: '200px'}}/>
             <h3>{article.title}</h3>
             <p>{article.description}</p>
@@ -84,3 +82,9 @@ NewsAPI in Next.js Tutorial (starting from 35:00): https://www.youtube.com/watch
 
 */
 
+/*
+1) Recreate the news website on my own.
+2) Learn JSON, including await fetch and .json()
+3) learn the difference between the various data rendering functions
+4) now, recreate the news website one more time for international relations news
+*/
