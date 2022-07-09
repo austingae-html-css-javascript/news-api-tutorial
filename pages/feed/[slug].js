@@ -8,13 +8,13 @@ const Feed = ({ pageNumber, articles}) => {
 
   return (
     <div>
-      {articles.map((article, index) => {
+      {articles.map((article) => {
         return (
-          <div className={index}>
+          <div key={article.title}>
             <img src={article.urlToImage} style={{width: '200px'}}/>
             <h3>{article.title}</h3>
             <p>{article.description}</p>
-            <a href={article.url} target='_blank'>
+            <a href={article.url} target='_blank' rel="noreferrer">
               <button>
                 Read More
               </button>
