@@ -30,7 +30,7 @@ const Feed = ({articles}) => {
 
 export default Feed
 
-export async function getStaticProps(pageContext) {
+export async function getServerSideProps(pageContext) {
   const apiResponse = await fetch (`https://newsapi.org/v2/everything?q=(coronavirus OR covid-19 or covid or virus)&sortBy=publishedAt&popularity&page=1&pageSize=5&apiKey=c8bca453280c47ca9d79d26ceaf74003`);
   const apiJSON = await apiResponse.json();
 
